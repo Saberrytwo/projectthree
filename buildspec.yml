@@ -25,7 +25,9 @@ phases:
       - printf '[{"name":"ui","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/ui:latest > imagedefinitions.json
       - echo Pushing the Docker Nginx image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
-      - printf '[{"name":"uinginx","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/nginx:latest > imagedefinitions.json
+      - printf '[{"name":"nginx","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/nginx:latest > imagedefinitions2.json
       - cat imagedefinitions.json 
 artifacts:
-  files: imagedefinitions.json
+  files: 
+  - imagedefinitions.json
+  - imagedefintionstwo.json
