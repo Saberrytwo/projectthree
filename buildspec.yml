@@ -15,14 +15,19 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - cd ui
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - echo Build started on `date`
       - echo Building the Docker image...
+      - cd ..
+      - cd nginx
       - docker build -t $REPOSITORY_UR:latest .
       - docker tag $REPOSITORY_UR:latest $REPOSITORY_UR:$IMAGE_TAG
   post_build:
     commands:
+      - cd ..
+      - ls
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
@@ -30,6 +35,7 @@ phases:
       - echo Writing image definitions file...
       - printf '[{"name":"ui","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json 
+      - ls
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_UR:latest
