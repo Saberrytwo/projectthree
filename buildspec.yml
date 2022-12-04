@@ -1,35 +1,43 @@
 version: 0.2
 
+
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
+      - aws --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - REPOSITORY_URI=637904357981.dkr.ecr.us-east-2.amazonaws.com/ui
+      - REPOSITORY_UR=637904357981.dkr.ecr.us-east-2.amazonaws.com/nginx
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
       - echo Build started on `date`
-      - echo Building the Docker node image... 
-      - cd ui         
-      - docker build -t ui:latest .
-      - docker tag ui:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ui:latest 
-      - echo Building the Docker nginx image...  
-      - cd ..
-      - cd nginx        
-      - docker build -t nginx:latest .
-      - docker tag nginx:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest 
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_UR:latest .
+      - docker tag $REPOSITORY_UR:latest $REPOSITORY_UR:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/ui:latest
-      - printf '[{"name":"ui","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/ui:latest > imagedefinitions.json
-      - echo Pushing the Docker Nginx image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
-      - printf '[{"name":"nginx","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/nginx:latest > imagedefinitions2.json
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"ui","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       - cat imagedefinitions.json 
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_UR:latest
+      - docker push $REPOSITORY_UR:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"nginx","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitionstwo.json
+      - cat imagedefinitionstwo.json 
 artifacts:
-  files: 
-  - /imagedefinitions.json
-  - /imagedefintionstwo.json
-
-
+    files: 
+    - imagedefinitions.json
+    - imagedefintionstwo.json
