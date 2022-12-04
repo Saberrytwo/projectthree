@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker node image...          
+      - docker build -t node-app:latest .
+      - docker tag node-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/node-app:latest 
+      - echo Building the Docker nginx image...  
+      - cd nginx        
+      - docker build -t node-nginx:latest .
+      - docker tag node-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/node-nginx:latest 
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/node-app:latest
+      - printf '[{"name":"nodeapp","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/node-app:latest > imagedefinitions.json
+      - echo Pushing the Docker Nginx image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/node-nginx:latest
+      - printf '[{"name":"nodenginx","imageUri":"%s"}]' 637904357981.dkr.ecr.us-east-2.amazonaws.com/node-nginx:latest > imagedefinitions.json
+      - cat imagedefinitions.json 
+artifacts:
+  files: imagedefinitions.json

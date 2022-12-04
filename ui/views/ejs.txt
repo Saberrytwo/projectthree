@@ -1,0 +1,39 @@
+<% for(let i=0;i<pData.length;i++) { %>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img height="300" style="object-fit: cover; object-position: 80% 30%;"
+                                src="<%= pData[i].imgLink %>" alt="..." />
+                            <!-- Professor details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">
+
+                                    </h5>
+
+                                    <b>
+                                        Professor <%= pData[i].lastName %>
+                                    </b>
+                                    <br>
+                                    <%= pData[i].description %>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <b>Classes </b>
+                                    <select>
+                                        <% for(let x=0;x<cData[i].length;x++) { %>
+
+                                            <option>
+
+                                                <%= cData[i][x].className %>
+                                            </option>
+
+                                            <% } %>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>

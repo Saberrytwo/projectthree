@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>The IS Major & its Professors</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">Major in IS</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Header-->
+    <header class="bg-dark py-5" style="background-image: url('/assets/TNRB2.jpg'); background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; background-size: auto;">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Major in Style</h1>
+                <p class="lead fw-normal text-white mb-0">With the Best Professors Around</p>
+            </div>
+        </div>
+    </header>
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!--ejs stuff-->
+                <% for(let i=0;i<pData.length;i++) { %>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img height="300" style="object-fit: cover; object-position: 80% 30%;"
+                                src="<%= pData[i].imgLink %>" alt="..." />
+                            <!-- Professor details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder">
+
+                                    </h5>
+
+                                    <b>
+                                        Professor <%= pData[i].lastName %>
+                                    </b>
+                                    <br>
+                                    <%= pData[i].description %>
+                                </div>
+                            </div>
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <b>Classes </b>
+                                    <select>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+        </div>
+        <div class="container px-4 px-lg-5 mt-5" id="about">
+            <header class="entry-header">
+                <h1 class="entry-title">IS At a Glance</h1>
+            </header>
+
+            <div class="entry-content">
+                <p class="msm-intro-p">The mission of the BYU Information Systems Department is to develop leaders of
+                    faith and character who can use, design, implement, manage, and research information systems to make
+                    intelligent organizational decisions.</p>
+                <ul>
+                    <li>
+                        <h2>What is Information Systems?</h2>
+                        <p>Information systems involves the synthesis of business and technology. Professionals define,
+                            develop,
+                            and maintain the information system infrastructure that supports the operations of all
+                            businesses,
+                            governments, and other institutions. These professionals use a wide variety of skills in
+                            carrying
+                            out this function.</p>
+                    </li>
+                    <li>
+                        <h2>Careers in&nbsp;Information Systems</h2>
+                        <p>Information systems graduates have a multitude of job opportunities and can work in almost
+                            any
+                            industry.&nbsp;The chart below is not a comprehensive list, but it does give a good idea of
+                            the
+                            types of jobs available to those with an information systems degree. For a more detailed
+                            list, visit
+                            <a href="http://iscareers.byu.edu">iscareers.byu.edu</a>. Information systems professionals
+                            may lean
+                            toward one orientation more than the other but can work in both.&nbsp;
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; IS 531 2022</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+</body>
+
+</html>

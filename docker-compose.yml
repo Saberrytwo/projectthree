@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    nginx:
+        image: 637904357981.dkr.ecr.us-east-2.amazonaws.com/nginx
+        container_name: nginx
+        networks:
+            - thenet
+        ports:
+            - '80:80'
+        logging:
+            driver: awslogs
+            options: 
+                awslogs-group: simple-stack-nginx
+                awslogs-region: us-east-2
+                awslogs-stream-prefix: nginx
+    app:
+        image: 637904357981.dkr.ecr.us-east-2.amazonaws.com/ui
+        container_name: ui
+        networks:
+            - thenet
+        logging:
+            driver: awslogs
+            options: 
+                awslogs-group: simple-stack-app
+                awslogs-region: us-east-2
+                awslogs-stream-prefix: ui
+
+networks:
+    thenet:
